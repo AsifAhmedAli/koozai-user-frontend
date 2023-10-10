@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile | Koozai Digital Agency Marketing</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+     <!-- toastr cdn link for css -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link href="./assets/css/style.css" rel="stylesheet" />
+    <link href="./assets/css/buttons.css" rel="stylesheet" />
+    <link href="./assets/css/responsive.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light-theme">
+    <div class="body-wrapper">
+      <header class="shadow-sm position-relative">
+        <a href="./index.html">
+          <img
+            src="./assets/images/chevron-back-outline.svg"
+            class="pointer"
+            width="30px"
+          />
+        </a>
+        <div class="page-title">Edit Profile</div>
+      </header>
+      <div class="body-content">
+        <!-- <div class="box p-0 mb-4">
+          <a class="edit-profile-nav">
+            <div>Profile Image</div>
+            <div class="d-flex">
+              <img
+                id="profile-img"
+                src="./assets/images/default_headimg.jpg"
+                class="rounded-5"
+                width="30px"
+              />
+              <img
+                src="./assets/images/chevron-forward-outline.svg"
+                width="20px"
+              />
+            </div>
+          </a>
+          <a class="edit-profile-nav">
+            <div>Username</div>
+            <div>
+              <small class="text-black-50" id="username">loading...</small>
+            </div>
+          </a>
+          <a class="edit-profile-nav">
+            <div>Gender</div>
+            <div class="d-flex">
+              <select class="border-0" id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </a>
+        </div> -->
+
+
+        <!-- Loading spinner start -->
+        <div id="loadingSpinner" class="loader-container d-none">
+          <span class="loader"></span>
+        </div>
+         
+        <!-- Loading spinner end -->
+        
+        <div class="box p-0 mb-4">
+          <a class="edit-profile-nav">
+            <div>Profile Image</div>
+            <div class="d-flex">
+              <form method="post" action="/edit-user-profile" enctype="multipart/form-data">
+              <input type="file" name="profile_pic" id="profile-image-upload" accept="image/*" style="display: none">
+              <label for="profile-image-upload">
+                <img
+                  id="profile-img"
+                  src=""
+                  alt="profile pic"
+                  class="rounded-5"
+                  width="30px"
+                />
+                <img
+                  src="./assets/images/chevron-forward-outline.svg"
+                  width="20px"
+                  id="chevron-icon"
+                />
+              </label>
+            </div>
+         
+          </a>
+          <a class="edit-profile-nav">
+            <div>Username</div>
+            <div>
+              <small class="text-black-50" id="username">loading...</small>
+            </div>
+          </a>
+          <a class="edit-profile-nav">
+            <div>Gender</div>
+            <div class="d-flex">
+              <select class="border-0" id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </a>
+          <!-- Save Changes Button (Initially Hidden) -->
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-block my-2 text-white" id="save-changes" style="display: none; background-color:#f28712">Save Changes</button>
+          </div>
+        </form>
+        </div>
+        
+        <div class="box p-0 mb-4">
+          <a href="./pay_password.html" class="edit-profile-nav">
+            <div>Withdraw Password</div>
+            <div>
+              <img
+                src="./assets/images/chevron-forward-outline.svg"
+                width="20px"
+              />
+            </div>
+          </a>
+          <a href="./password.html" class="edit-profile-nav">
+            <div>Login Password</div>
+            <div>
+              <img
+                src="./assets/images/chevron-forward-outline.svg"
+                width="20px"
+              />
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+     <!-- model for success and error messages -->
+     <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-white w-auto mx-auto">
+          <div class="modal-body show_message bg-dark text-center">
+            <p id="messageContent" class="text-center mt-3"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- toastr cdn link for js -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script  src="./js/integrations/profile.js"></script>
+     <!-- base url file -->
+     <script src="./js/integrations/all.js"></script> 
+  </body>
+</html>

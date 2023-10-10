@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notification | Koozai Digital Agency Marketing</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- toastr cdn link for css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link href="./assets/css/style.css" rel="stylesheet" />
+    <link href="./assets/css/buttons.css" rel="stylesheet" />
+    <link href="./assets/css/responsive.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light-theme">
+    <div class="body-wrapper">
+      <header class="shadow-sm position-relative">
+        <a href="./index.html">
+          <img
+            src="./assets/images/chevron-back-outline.svg"
+            class="pointer"
+            width="30px"
+          />
+        </a>
+        <div class="page-title">Notification</div>
+      </header>
+      <!--  css loader -->
+
+      <div id="loadingSpinner" class="loader-container d-none">
+        <span class="loader"></span>
+    </div>"
+      <div class="body-content" id="notificationsContainer">
+        <div class="box mb-3">
+          <h6>You have successfully recharged 5000USDT to you account!</h6>
+          <small class="text-black-50 mb-0">2023-06-26 11:12:10</small>
+        </div>
+        <div class="box mb-3">
+          <h6>You have successfully recharged 5000USDT to you account!</h6>
+          <small class="text-black-50 mb-0">2023-06-26 11:12:10</small>
+        </div>
+      </div>
+    </div>
+    <!-- CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- toastr cdn link for js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+         
+        <!-- base url file -->
+        <script src="./js/integrations/all.js"></script> 
+        
+        <!-- Add this script tag to your HTML file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    
+
+    <script>
+      // Check if a token is available in localStorage
+      const auth_token = localStorage.getItem('user_token');
+
+      if (!auth_token) {
+          // No token is available, so redirect to the login page
+          window.location.href = './login.html';
+      }
+
+      // Function to parse JWT token
+      function parseJwt(token) {
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+              atob(base64)
+                  .split('')
+                  .map(function (c) {
+                      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                  })
+                  .join('')
+          );
+
+          return JSON.parse(jsonPayload);
+      }
+
+      // Configure Toastr options
+      const toastrOptions = {
+          closeButton: true,
+          progressBar: true,
+          positionClass: "toast-top-center",
+          timeOut: 5000,
+          extendedTimeOut: 2000,
+          showDuration: 1000,
+          hideDuration: 5000,
+          preventDuplicates: true,
+          newestOnTop: true,
+      };
+
+      $(document).ready(function () {
+          // Function to fetch notifications and update the container
+          function fetchNotifications() {
+              // Show loading spinner
+              $('#loadingSpinner').removeClass('d-none');
+
+              // Fetch notifications from your API
+              const token = localStorage.getItem('user_token');
+              const decodedToken = parseJwt(token);
+              const userId = decodedToken.userId; // Get the user ID
+
+              $.ajax({
+                  type: 'GET',
+                  url: `http://localhost:5000/api/get-notifications/${userId}`, 
+                  headers: {
+                      'Authorization': `Bearer ${auth_token}`,
+                  },
+                  beforeSend: function (xhr) {
+                      // Set any additional headers here if needed
+                  },
+                  success: function (response) {
+                      // Hide loading spinner
+                      $('#loadingSpinner').addClass('d-none');
+
+                      // Process notifications
+                      const notificationsContainer = $('#notificationsContainer');
+                      notificationsContainer.empty();
+
+                      response.notifications.forEach((notification) => {
+                          const bgColor = notification.is_read ? 'white' : 'lightblue';
+                          const textClass = notification.is_read ? 'read' : 'unread';
+
+                          const notificationHtml = `
+                              <div class="box mb-3" style="background-color: ${bgColor}; cursor: pointer;" data-notification-id="${notification.id}">
+                                  <h6 class="notification-text ${textClass}">${notification.message}</h6>
+                                  <small class="text-black-50 mb-0">${moment(notification.created_at).format('YYYY-MM-DD HH:mm:ss')}</small>
+                              </div>
+                          `;
+
+                          notificationsContainer.append(notificationHtml);
+                      });
+
+                      // Attach click event to notifications
+                      $('.box').click(function () {
+                          const notificationId = $(this).data('notification-id');
+                          markNotificationAsRead(notificationId);
+                      });
+                  },
+                  error: function (error) {
+                      // Hide loading spinner
+                      $('#loadingSpinner').addClass('d-none');
+
+                      // Show an error notification using Toastr
+                      toastr.error(error.responseJSON.error, 'Error', toastrOptions);
+                  },
+              });
+          }
+
+          // Function to mark a notification as read
+          function markNotificationAsRead(notificationId) {
+              $.ajax({
+                  type: 'PUT',
+                  url: 'http://localhost:5000/api/mark-notification-as-read', 
+                  data: JSON.stringify({ notificationId }),
+                  contentType: 'application/json',
+                  headers: {
+                      'Authorization': `Bearer ${auth_token}`,
+                  },
+                  success: function (response) {
+                      // Mark the notification as read in the UI
+                      $(`.box[data-notification-id="${notificationId}"]`).css('background-color', 'white');
+                      $(`.notification-text[data-notification-id="${notificationId}"]`).removeClass('unread').addClass('read');
+                  },
+                  error: function (error) {
+                      // Show an error notification using Toastr
+                      toastr.error(error.responseJSON.error, 'Error', toastrOptions);
+                  },
+              });
+          }
+
+          // Call the fetchNotifications function when the page loads
+          fetchNotifications();
+      });
+  </script>
+    
+  
+  
+  </body>
+</html>
