@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
   --theme-color: #f07b0e;
@@ -10,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 13px;
-  font-family: "Montserrat";
+  font-family: "Montserrat Alternates", sans-serif;
   box-sizing: border-box;
   color: var(--bs-body-color);
 }
@@ -461,7 +461,7 @@ header .navigator a {
   box-shadow: 0 0 14px rgba(27, 154, 51, 0.2);
 }
 .amount-selected {
-  background-color: #f07b0e !important; 
+  background-color: #f07b0e !important;
   color: white !important;
 }
 /* Custom CSS to style links inside the modal */
@@ -469,10 +469,9 @@ header .navigator a {
   text-decoration: none;
   color: black;
   text-transform: capitalize;
-  font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
 
-  font-size: 22px; 
+  font-size: 22px;
 }
 
 .withdraw-page .total-balance label {
@@ -714,8 +713,6 @@ a.forgot-password-action {
   }
 }
 
-
-
 /* Loader css */
 
 .loader-container {
@@ -728,73 +725,63 @@ a.forgot-password-action {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; 
+  z-index: 9999;
 }
 
-    .loader {
-      width: 48px;
-      height: 48px;
-      border: 5px dotted #FFF;
-      border-radius: 50%;
-      display: inline-block;
-      position: relative;
-      box-sizing: border-box;
-      animation: rotation 2s linear infinite;
-    }
-    
-    @keyframes rotation {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    } 
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px dotted #fff;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
 
-    .show_message{
-      border-radius: 5px !important;
-      background-color: black !important;
-      padding: 0px  20px !important;
-    
-      
-    }
-
-  #errorSuccessModal h3{
-    color: #000;
-
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
   }
-
-  #errorSuccessModal h3{
-    color: #000;
-
+  100% {
+    transform: rotate(360deg);
   }
+}
 
-  #errorSuccessModal h5{
-    color: red;
+.show_message {
+  border-radius: 5px !important;
+  background-color: black !important;
+  padding: 0px 20px !important;
+}
 
-  }
+#errorSuccessModal h3 {
+  color: #000;
+}
 
-    .errorSuccessModal{
-      margin: auto;
-      background-color: white !important;
-      color: #847a7a !important;
-      cursor: pointer;
-      text-align: center;
-      width: 60%;
-      font-family: 'Times New Roman', Times, serif;
-      border-radius: 3px;
-      font-size: 15px;
-    }
+#errorSuccessModal h3 {
+  color: #000;
+}
 
-hr{
+#errorSuccessModal h5 {
+  color: red;
+}
+
+.errorSuccessModal {
+  margin: auto;
+  background-color: white !important;
+  color: #847a7a !important;
+  cursor: pointer;
+  text-align: center;
+  width: 60%;
+  border-radius: 3px;
+  font-size: 15px;
+}
+
+hr {
   margin-top: -10px;
   color: rgb(221, 214, 214);
 }
 
-
-    .errorSuccessModal .modal-footerr{
-      margin-top: -6px
-    
-    }
-
-  
+.errorSuccessModal .modal-footerr {
+  margin-top: -6px;
+}
