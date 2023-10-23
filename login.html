@@ -46,7 +46,7 @@
                   <form class="my-2">
                     <div class="auth-control-row">
                       <span>Username</span>
-                      <input type="text" name="identifier" placeholder="Type Here" />
+                      <input type="text" name="identifier" placeholder="Type Here" autocomplete="off" />
                     </div>
                     <div class="auth-control-row border-top-0">
                       <span>Password</span>
@@ -90,8 +90,9 @@
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-white">
-          <div class="modal-body p-0">
-            <a class="forgot-password-action border-bottom">
+          <div class="modal-body p-0" id="customerServiceLinks">
+            
+            <!-- <a class="forgot-password-action border-bottom" href="https://api.whatsapp.com/send/?phone=923117902122&type=phone_number&app_absent=0">
               Koozai Customer Service 002 (Closed)
             </a>
             <a class="forgot-password-action border-bottom">
@@ -102,7 +103,7 @@
             </a>
             <a class="forgot-password-action">
               Koozai Customer Service 004 (Closed)
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
@@ -127,6 +128,9 @@
         <script  src="./js/integrations/auth.js"></script>
         <!-- base url file -->
       <script src="./js/integrations/all.js"></script> 
+
+
+      
         
 
     <script>

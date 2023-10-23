@@ -171,7 +171,7 @@ $(document).ready(function () {
               const supportWhatsAppData = response.supportWhatsAppData;
 
               // Update the modal with WhatsApp links, names, and statuses
-              const whatsappLinksList = $('#whatsappLinks');
+              const whatsappLinksList = $('.whatsappLinks');
               whatsappLinksList.empty();
 
               supportWhatsAppData.forEach(contact => {

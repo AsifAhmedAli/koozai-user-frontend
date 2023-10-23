@@ -183,6 +183,40 @@ $(document).ready(function () {
 });
 
 
+
+// CUSTOMER SUPPORT API INTEGRATION
+
+
+        // Function to create a customer service link
+    function createCustomerServiceLink(contact) {
+        const link = `<a class="forgot-password-action border-bottom" href="https://api.whatsapp.com/send/?phone=${contact.whatsapp_number}&type=phone_number&app_absent=0">
+            ${contact.name} <br> ${contact.status === 'active' ? '  ' : '(Closed)'}
+        </a>`;
+        return link;
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:5000/api/get-customer-support',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    const customerServiceLinks = $('#customerServiceLinks');
+                    response.forEach(contact => {
+                        const link = createCustomerServiceLink(contact);
+                        customerServiceLinks.append(link);
+                    });
+                } else {
+                    console.error('Error fetching customer service data');
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching customer service data', error);
+            }
+        });
+    });
+      
    
 // $(document).ready(function () {
 //     $("#login-button").click(function (e) {

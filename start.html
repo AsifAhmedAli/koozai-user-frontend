@@ -215,7 +215,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content errorSuccessModal ">
             <div class="d-flex justify-content-center mt-2">
-                <h3 class="modal-title text-center" id="errorSuccessModalLabel">Koozai</h3>
+                <h3 class="modal-title text-center">Koozai</h3>
             </div>
             <div class="modal-body">
                 <p id="errorSuccessMessage"></p>
@@ -229,24 +229,66 @@
 </div>
 
 
+
+
 <!-- deposit confirmation model  -->
 
-<div class="modal fade" id="confirmDepositModal" tabindex="-1" aria-labelledby="errorSuccessModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="confirmDepositModal" tabindex="-1" aria-labelledby="errorSuccessModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content errorSuccessModal ">
+      <div class="modal-content errorSuccessModal">
           <div class="d-flex justify-content-center mt-2">
-              <h3 class="modal-title text-center" id="errorSuccessModalLabel">Koozai</h3>
+              <h3 class="modal-title text-center" >Koozai</h3>
           </div>
           <div class="modal-body">
-            You have low balance. Please recharge your account to submit.
+            Insufficient balance. Please recharge your account before submitting!
           </div>
           <hr>
           <div class="modal-footerr d-flex justify-content-around mb-3">
             <button type="button" class="btn btn-danger" id="cancelButton" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="depositButton">Deposit Now</button>
+            <button type="button" class="btn btn-primary" id="depositButton">Deposit</button>
           </div>
       </div>
   </div>
+</div> -->
+
+<div
+class="modal fade modal-sm confirmationModal"
+id="confirmDepositModal"
+tabindex="-1"
+aria-labelledby="confirmDepositModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content bg-white">
+    <div class="modal-body px-0 pb-0">
+      <h6 class="text-center mb-4">Koozai</h6>
+      <p class="text-center text-black-50 mb-4 fs-6">
+        The Balance is insufficient, Please recharge before submitting!
+      </p>
+      <div class="border-top footer-modal">
+        <div class="modal-button cancel">
+          <a
+            class="text-black text-no-underline"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmDepositModal"
+          >
+            Cancel
+          </a>
+        </div>
+        <div class="modal-button logout">
+          <a
+            class="text-danger text-no-underline"
+            href="#"
+            id="depositButton" 
+          >
+            Okay
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
     <!-- CDN -->

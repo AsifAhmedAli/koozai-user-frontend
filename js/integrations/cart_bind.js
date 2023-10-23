@@ -45,18 +45,7 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-// Configure Toastr options
-const toastrOptions = {
-    closeButton: true,
-    progressBar: true,
-    positionClass: "toast-top-center",
-    timeOut: 5000,
-    extendedTimeOut: 2000,
-    showDuration: 1000,
-    hideDuration: 5000,
-    preventDuplicates: true,
-    newestOnTop: true,
-};
+
 
 $(document).ready(function () {
     // Function to show the loading spinner
@@ -69,16 +58,18 @@ $(document).ready(function () {
         $('#loadingSpinner').addClass('d-none');
     }
 
-    // Function to partially obscure a string
-    function obscureString(input) {
-        if (input.length > 4) {
-            const prefix = input.substring(0, 4);
-            const obscuredPart = '*'.repeat(input.length - 4);
-            return `${prefix}${obscuredPart}`;
-        } else {
-            return '*'.repeat(input.length);
-        }
+   // Function to partially obscure a string
+function obscureString(input) {
+    if (input.length > 4) {
+        const visiblePart = input.substring(0, 2); // Show the first 2 characters
+        const obscuredPart = '*'.repeat(input.length - 4); // Obfuscate the middle characters
+        const endPart = input.slice(-2); // Show the last 2 characters
+        return `${visiblePart}${obscuredPart}${endPart}`;
+    } else {
+        return '*'.repeat(input.length); // If the string is too short, hide it entirely
     }
+}
+
 
     // Function to update the form with wallet data
     function updateFormWithWalletData(walletData) {
@@ -151,10 +142,20 @@ $(document).ready(function () {
             phone
         };
 
+         // Check if the wallet data is already loaded, indicating that it's a modification
+    const isModification = ($('#modifyButton').text() === 'Modify');
+    
+
+    if (isModification) {
+        // Open the modal to confirm the modification
+        $('#forgotPasswordModal').modal('show');
+        
+    }else{
+
         // Make an AJAX call to bind/update the wallet
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:5000/api/bind-wallet', // Replace with your API endpoint URL
+            url: 'http://localhost:5000/api/bind-wallet', 
             data: JSON.stringify(data),
             contentType: 'application/json',
             headers: {
@@ -179,215 +180,46 @@ $(document).ready(function () {
                 showMessageModal(error.responseJSON.error, true);
             }
         });
+    }
+
+        
     });
 });
 
 
 
 
-// // Check if a token is available in localStorage
-// const auth_token = localStorage.getItem('user_token');
 
-// if (!auth_token) {
-//   // No token is available, so redirect to the login page
-//   window.location.href = './login.html';
-// }
-
-// // Function to parse JWT token
-// function parseJwt(token) {
-//   const base64Url = token.split('.')[1];
-//   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-//   const jsonPayload = decodeURIComponent(
-//       atob(base64)
-//           .split('')
-//           .map(function (c) {
-//               return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-//           })
-//           .join('')
-//   );
-
-//   return JSON.parse(jsonPayload);
-// }
-
-// // Configure Toastr options
-// const toastrOptions = {
-//   closeButton: true,
-//   progressBar: true,
-//   positionClass: "toast-top-center",
-//   timeOut: 10000,
-//   extendedTimeOut: 2000,
-//   showDuration: 1000,
-//   hideDuration: 5000,
-//   preventDuplicates: true,
-//   newestOnTop: true,
-// };
-
-// $(document).ready(function () {
-//   // Function to show the loading spinner
-//   function showLoadingSpinner() {
-//       $('#loadingSpinner').removeClass('d-none');
-//   }
-
-//   // Function to hide the loading spinner
-//   function hideLoadingSpinner() {
-//       $('#loadingSpinner').addClass('d-none');
-//   }
-
-//   // Function to clear and enable input fields
-//   function clearAndEnableInputFields() {
-//       $('#full_name').val('');
-//       $('#crypto_exchange_platform').val('');
-//       $('#usdt_trc20_address').val('');
-//       $('#phone').val('');
-//       $('#full_name').prop('disabled', false);
-//       $('#crypto_exchange_platform').prop('disabled', false);
-//       $('#usdt_trc20_address').prop('disabled', false);
-//       $('#phone').prop('disabled', false);
-//   }
-
-//   // Function to toggle edit mode
-//   function toggleEditMode(enabled) {
-//       if (enabled) {
-//           $('#full_name').prop('disabled', false);
-//           $('#crypto_exchange_platform').prop('disabled', false);
-//           $('#usdt_trc20_address').prop('disabled', false);
-//           $('#phone').prop('disabled', false);
-//           $('#modifyButton').text('Update Changes');
-//       } else {
-//           $('#full_name').prop('disabled', true);
-//           $('#crypto_exchange_platform').prop('disabled', true);
-//           $('#usdt_trc20_address').prop('disabled', true);
-//           $('#phone').prop('disabled', true);
-//           $('#modifyButton').text('Modify');
-//       }
-//   }
-
-//   // Initially, set edit mode to disabled
-//   toggleEditMode(false);
-
-//   // Function to update the form with wallet data
-//   function updateFormWithWalletData(walletData) {
-//       if (walletData && walletData.length > 0) {
-//           const firstWallet = walletData[0];
-
-//           // Update form fields with wallet data
-//           $('#full_name').val(firstWallet.full_name);
-//           $('#crypto_exchange_platform').val(firstWallet.crypto_exchange_platform);
-//           $('#usdt_trc20_address').val(firstWallet.usdt_trc20_address);
-//           $('#phone').val(firstWallet.phone);
-
-//           // Change labels
-//           $('#fullNameLabel').text('Full Name');
-//           $('#cryptoPlatformLabel').text('Crypto exchange platform');
-//           $('#usdtAddressLabel').text('USDT TRC20 Address');
-//           $('#phoneLabel').text('Phone No');
-//       }
-//   }
-
-//   // Fetch the user's profile using the bearer token
-//   const token = localStorage.getItem('user_token');
-//   const decodedToken = parseJwt(token);
-//   const userId = decodedToken.userId;
-
-//   // Make an AJAX call to get wallet data for the user
-//   $.ajax({
-//       type: 'GET',
-//       url: `http://localhost:5000/api/get-wallet-by-user/${userId}`, // Replace with your API endpoint URL
-//       headers: {
-//           'Authorization': `Bearer ${token}`,
-//       },
-//       beforeSend: function (xhr) {
-//           // Show loading spinner before the AJAX call
-//           showLoadingSpinner();
-//       },
-//       success: function (response) {
-//           // Hide loading spinner when the API request is complete
-//           hideLoadingSpinner();
-
-//           // Update the form with wallet data
-//           updateFormWithWalletData(response.walletData);
-//       },
-//       error: function (error) {
-//           // Hide loading spinner when the API request is complete
-//           hideLoadingSpinner();
-
-//           // Show an error notification using Toastr
-//           toastr.error(error.responseJSON.error, "Error", toastrOptions);
-//       }
-//   });
-
-//   // Handle button click to toggle edit mode
-//   $('#modifyButton').click(function () {
-//       // Check if edit mode is enabled or not
-//       const isEditModeEnabled = !$('#full_name').prop('disabled');
-
-//       if (isEditModeEnabled) {
-//           // If edit mode is enabled, validate input fields
-//           const full_name = $('#full_name').val();
-//           const crypto_exchange_platform = $('#crypto_exchange_platform').val();
-//           const usdt_trc20_address = $('#usdt_trc20_address').val();
-//           const phone = $('#phone').val();
-
-//           // Check if any input field is empty
-//           if (!full_name || !crypto_exchange_platform || !usdt_trc20_address || !phone) {
-//               toastr.error('Please fill in all input fields.', "Error", toastrOptions);
-//               return;
-//           }
-
-//           // Prepare data to send
-//           const data = {
-//               user_id: userId,
-//               full_name,
-//               crypto_exchange_platform,
-//               usdt_trc20_address,
-//               phone
-//           };
-
-//           // Make an AJAX call to update the wallet
-//           $.ajax({
-//               type: 'PUT',
-//               url: 'http://localhost:5000/api/edit-wallet', // Replace with your API endpoint URL
-//               data: JSON.stringify(data),
-//               contentType: 'application/json',
-//               headers: {
-//                   'Authorization': `Bearer ${token}`,
-//               },
-//               beforeSend: function (xhr) {
-//                   // Show loading spinner before the AJAX call
-//                   showLoadingSpinner();
-//               },
-//               success: function (response) {
-//                   // Hide loading spinner when the API request is complete
-//                   hideLoadingSpinner();
-
-//                   // Show a success notification using Toastr
-//                   toastr.success(response.message, "Success", toastrOptions);
-
-//                   // Clear and enable input fields, and set edit mode to disabled
-//                   clearAndEnableInputFields();
-//                   toggleEditMode(false);
-//                     // Reload the page after a short delay (you can adjust the delay as needed)
-//                     setTimeout(function () {
-//                         location.reload();
-//                     }, 8000); // Reload after 2 seconds (2000 milliseconds)
-                
-//               },
-//               error: function (error) {
-//                   // Hide loading spinner when the API request is complete
-//                   hideLoadingSpinner();
-
-//                   // Show an error notification using Toastr
-//                   console.log(error)
-//                   toastr.error(error.responseJSON.error, "Error", toastrOptions);
-//               }
-//           });
-//       } else {
-//           // If edit mode is disabled, enable input fields and set edit mode to enabled
-//           toggleEditMode(true);
-//           clearAndEnableInputFields();
-//           $('#modifyButton').text('Update Changes');
-//       }
-//   });
-// });
+// CUSTOMER SUPPORT API INTEGRATION
 
 
+        // Function to create a customer service link
+        function createCustomerServiceLink(contact) {
+            const link = `<a class="forgot-password-action border-bottom" href="https://api.whatsapp.com/send/?phone=${contact.whatsapp_number}&type=phone_number&app_absent=0">
+                ${contact.name} <br> ${contact.status === 'active' ? '  ' : '(Closed)'}
+            </a>`;
+            return link;
+        }
+    
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:5000/api/get-customer-support',
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    if (response) {
+                        const customerServiceLinks = $('#customerServiceLinks');
+                        response.forEach(contact => {
+                            const link = createCustomerServiceLink(contact);
+                            customerServiceLinks.append(link);
+                        });
+                    } else {
+                        console.error('Error fetching customer service data');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error fetching customer service data', error);
+                }
+            });
+        });
+    

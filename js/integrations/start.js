@@ -347,6 +347,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $(document).ready(function () {
 
   
@@ -390,6 +408,19 @@ $(document).ready(function () {
             },
         });
     }
+
+
+
+    // Event listener for tab visibility change
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") {
+        // The tab is now visible, update balance and commission
+        // Show the loader while updating
+        $("#loadingSpinner").removeClass("d-none");
+        updateBalanceAndCommission();
+    }
+});
+
 
     // Function to update balance and commission in real-time
     function updateBalanceAndCommission() {
@@ -439,23 +470,40 @@ $(document).ready(function () {
                 user_id: userId,
             },
             success: function (response) {
-                console.log(response)
+                // console.log(response)
+                if (response.message === "Product merged successfully") {
+                    // Show the deposit modal
+                    $("#confirmDepositModal").modal("show");
+            
+                    // Attach click event to Deposit Now button within the deposit modal
+                    $("#depositButton").click(function () {
+                        // Redirect the user to deposit.html
+                        window.location.href = "deposit.html";
+                    });
+            
+                    // Attach click event to Cancel button within the deposit modal
+                    $("#cancelButton").click(function () {
+                        // Redirect the user to start.html
+                        window.location.href = "start.html";
+                    });
+                }
                 // $("#loadingSpinner").addClass("d-none");
                 $("#loading-gif").addClass("d-none");
                 // console.log(response);
                 // Check if there are no errors
                 if (!response.error) {
                     // Update modal content with product details using IDs
-                    $("#product_img").attr("src", response.selected_product ? response.selected_product.product_image_url : response.merged_product.product_image_url);
-                    $("#product_description").html(response.selected_product ? response.selected_product.product_description : response.merged_product.product_description);
-                    $("#product_price").html(`USDT ${response.selected_product ? response.selected_product.product_price : response.merged_product.product_price}`);
+                    $("#product_img").attr("src", response.selected_product.product_image_url);
+                    $("#product_description").html(response.selected_product.product_description);
+                    $("#product_price").html(`USDT ${response.selected_product.product_price}`);
                     $("#product_commission").html(`USDT ${response.commission.toFixed(2)}`);
-                    $("#creation_time").html(moment(response.selected_product ? response.selected_product.user_product_created_at : response.merged_product.user_product_created_at).format("YYYY-MM-DD HH:mm:ss"));
-                    $("#data_no").html(`${response.selected_product ? response.selected_product.id : response.merged_product.id}`);
+                    $("#creation_time").html(moment(response.selected_product.user_product_created_at).format("YYYY-MM-DD HH:mm:ss"));
+                    $("#data_no").html(`${response.selected_product.id}`);
 
                     
                     // Attach click event to Submit button within the modal
-                    $("#submit-btn").click(function () {
+                    $("#submit-btn").off().click(function () {
+                        
                         // Call the submit data API
                         $.ajax({
                             url: "http://localhost:5000/api/submit-data",
@@ -484,8 +532,11 @@ $(document).ready(function () {
                                 // Close the Drive Data modal on success
                                 $("#driveDataModal").modal("hide");
                                 
+                                
+                                
                             },
                             error: function (submitError) {
+                                
                                 if (submitError.responseJSON.error === "You have low balance, kindly make a deposit to your account by contacting Customer Support") {
                                     // Show the deposit modal
                                     $("#confirmDepositModal").modal("show");
@@ -509,7 +560,9 @@ $(document).ready(function () {
                                     $("#errorSuccessModal").modal("show");
                                     // Hide the loading spinner in case of error
                                     $("#loadingSpinner").addClass("d-none");
+                                    
                                 }
+                                
                             }
                             
                         });
@@ -528,6 +581,23 @@ $(document).ready(function () {
             },
             error: function (error) {
                 $("#loading-gif").addClass("d-none");
+                if (error.responseJSON.error === "Insufficient balance") {
+                    // Show the deposit modal
+                    $("#confirmDepositModal").modal("show");
+            
+                    // Attach click event to Deposit Now button within the deposit modal
+                    $("#depositButton").click(function () {
+                        // Redirect the user to deposit.html
+                        window.location.href = "deposit.html";
+                    });
+            
+                    // Attach click event to Cancel button within the deposit modal
+                    $("#cancelButton").click(function () {
+                        // Redirect the user to start.html
+                        window.location.href = "start.html";
+                    });
+                }else{
+                    $("#loading-gif").addClass("d-none");
                 // Handle the error if fetching product details fails
                 // Show error message in the Bootstrap modal
                 $("#errorSuccessModalLabel").text("Error");
@@ -535,9 +605,16 @@ $(document).ready(function () {
                 $("#errorSuccessModal").modal("show");
                 // Hide the loading spinner in case of error
                 $("#loadingSpinner").addClass("d-none");
+                }
             },
         });
+        
     });
+            // Add an event listener for the Drive Data modal close event
+        $("#driveDataModal").on("hidden.bs.modal", function (e) {
+            // Call the function to update balance and commission when the modal is closed
+            updateBalanceAndCommission();
+        });
 
     // Close the error message modal when the "Confirm" button is pressed
     $("#confirmButton").click(function () {

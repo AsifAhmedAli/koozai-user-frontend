@@ -478,6 +478,91 @@ function changePassword() {
 
 
 
+
+
+
+//   change login password API call
+
+
+
+function showLoadingSpinner() {
+  $('#loadingSpinner').removeClass('d-none');
+}
+
+function hideLoadingSpinner() {
+  $('#loadingSpinner').addClass('d-none');
+}
+
+
+function changePasswordOfWithdrawl() {
+  
+  const oldPassword = $('#oldPasswordOfWithdrawl').val();
+  const newPassword = $('#newPasswordOfWithdrawl').val();
+  const confirmNewPassword = $('#confirmNewPasswordOfWithdrawl').val();
+
+
+
+
+  // Show loading spinner while the API request is in progress
+  showLoadingSpinner();
+
+  // Fetch the user's profile using the bearer token
+  const token = localStorage.getItem('user_token');
+  const decodedToken = parseJwt(token);
+  const userId = decodedToken.userId;
+
+  $.ajax({
+      type: 'PUT',
+      url: `${baseurl}/api/change-withdraw-password`,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+      },
+      data: JSON.stringify({
+          userId,
+          old_password: oldPassword,
+          new_password: newPassword,
+          confirm_new_password: confirmNewPassword,
+      }),
+      success: function (data) {
+      //   console.log(data.error)
+          if (data.error) {
+              // Display the API error message using toastr
+              showMessageModal(data.error, true);
+          } else {
+              // Display a success message using toastr
+              showMessageModal('Password changed successfully', true);
+          }
+      },
+      error: function (xhr, textStatus, errorThrown) {
+          // console.error(xhr);
+          // Display a generic error message using toastr
+          
+          showMessageModal(xhr.responseJSON.error,true);
+      },
+      complete: function () {
+          // Hide loading spinner when API request is complete
+          hideLoadingSpinner();
+      },
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // LOGOUT API CALL ##############
 
 $(document).ready(function () {
@@ -606,3 +691,44 @@ $(document).ready(function () {
       // Call the fetchEvents function when the page loads
       fetchEvents();
   });
+
+
+
+
+
+
+
+  
+// CUSTOMER SUPPORT API INTEGRATION
+
+
+        // Function to create a customer service link
+        function createCustomerServiceLink(contact) {
+          const link = `<a class="forgot-password-action border-bottom" href="https://api.whatsapp.com/send/?phone=${contact.whatsapp_number}&type=phone_number&app_absent=0">
+              ${contact.name} <br> ${contact.status === 'active' ? '  ' : '(Closed)'}
+          </a>`;
+          return link;
+      }
+  
+      $(document).ready(function () {
+          $.ajax({
+              url: 'http://localhost:5000/api/get-customer-support',
+              method: 'GET',
+              dataType: 'json',
+              success: function (response) {
+                  if (response) {
+                      const customerServiceLinks = $('#customerServiceLinks');
+                      response.forEach(contact => {
+                          const link = createCustomerServiceLink(contact);
+                          customerServiceLinks.append(link);
+                      });
+                  } else {
+                      console.error('Error fetching customer service data');
+                  }
+              },
+              error: function (error) {
+                  console.error('Error fetching customer service data', error);
+              }
+          });
+      });
+  

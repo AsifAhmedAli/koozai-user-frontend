@@ -537,7 +537,7 @@ function parseJwt(token) {
               }),
               success: function (response) {
                 // Handle the response from the submit API
-                console.log(response);
+                // console.log(response);
   
                 // Close the modal after submission
                 $("#confirmationModal").modal("hide");
@@ -592,28 +592,28 @@ function parseJwt(token) {
                     <div class="d-flex">
                       ${
                         item.status === "frozen"
-                          ? '<button class="merged-button btn btn-outline-dark mx-1 rounded-pill">Merged</button>'
+                          ? '<button class="merged-button btn btn-outline-dark mx-1 rounded-pill" disabled>Merged</button>'
                           : ""
                       }
                       <div class="order-status text-capitalize rounded-pill text-center d-flex justify-content-center align-items-center ${
                         item.status === "pending"
                           ? "btn btn-warning"
                           : item.status === "merged"
-                          ? "btn btn-outline-dark"
+                          ? "btn border border-dark" 
                           : item.status === "frozen"
-                          ? "btn btn-outline-secondary"
+                          ? "btn border border-dark px-4"
                           : "completed"
-                      }">${item.status}</div>
+                      }" >${item.status}</div>
                       ${
                         item.status === "pending"
-                          ? '<button class="submit-button btn btn-success rounded-pill mx-1" data-product-id="' +
+                          ? '<button  class="submit-button btn btn-success rounded-pill mx-1" data-product-id="' +
                             item.product_id +
                             '">Submit</button>'
                           : ""
                       }
                       ${
                         item.status === "merged"
-                          ? '<button class="pending-button btn btn-warning rounded-pill mx-1">Pending</button><button class="submit-now-button btn btn-danger btn-sm rounded-pill" data-product-id="' +
+                          ? '<button disabled class="pending-button btn btn-warning rounded-pill mx-1">Pending</button><button class="submit-now-button btn btn-danger btn-sm rounded-pill" data-product-id="' +
                             item.product_id +
                             '">Submit Now</button>'
                           : ""
