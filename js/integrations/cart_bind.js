@@ -99,7 +99,7 @@ function obscureString(input) {
     // Make an AJAX call to get wallet data for the user
     $.ajax({
         type: 'GET',
-        url: `http://localhost:5000/api/get-wallet-by-user/${userId}`, // Replace with your API endpoint URL
+        url: `${baseurl}/api/get-wallet-by-user/${userId}`, 
         headers: {
             'Authorization': `Bearer ${token}`,
         },
@@ -155,7 +155,7 @@ function obscureString(input) {
         // Make an AJAX call to bind/update the wallet
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:5000/api/bind-wallet', 
+            url: `${baseurl}/api/bind-wallet`, 
             data: JSON.stringify(data),
             contentType: 'application/json',
             headers: {
@@ -203,7 +203,7 @@ function obscureString(input) {
     
         $(document).ready(function () {
             $.ajax({
-                url: 'http://localhost:5000/api/get-customer-support',
+                url: `${baseurl}/api/get-customer-support`,
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {

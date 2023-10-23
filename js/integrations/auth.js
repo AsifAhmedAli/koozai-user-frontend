@@ -197,7 +197,7 @@ $(document).ready(function () {
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:5000/api/get-customer-support',
+            url: `${baseurl}/api/get-customer-support`,
             method: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -217,47 +217,4 @@ $(document).ready(function () {
         });
     });
       
-   
-// $(document).ready(function () {
-//     $("#login-button").click(function (e) {
-//       e.preventDefault();
-
-//       // Get input values
-//       const identifier = $("input[name='identifier']").val();
-//       const password = $("input[name='password']").val();
-
-//       // Create the data object to send to the API
-//       const data = {
-//         identifier,
-//         password,
-//       };
-        
-
-//       // Make an AJAX POST request to your login API endpoint
-//       $.ajax({
-//         type: "POST",
-//         url: `${baseurl}/api/user-login`, 
-//         data: JSON.stringify(data),
-//         contentType: "application/json",
-//         success: function (response) {
-//             // console.log(response)
-//           // Store the token in local storage
-//           localStorage.setItem("user_token", response.token);
-
-//           // Redirect to index.html
-//           window.location.href = "index.html";
-//         },
-//         error: function (error) {
-//           // console.log(error);
-
-//           if (error.responseJSON && error.responseJSON.error) {
-//             // Display the specific error message from the server using Toastr
-//             showMessageModal(error.responseJSON.error, true);
-//           } else {
-//             // Generic error message
-//             showMessageModal("Login failed. Please try again.",true);
-//           }
-//         },
-//       });
-//     });
-//   });
+ 

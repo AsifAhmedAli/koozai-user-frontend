@@ -62,7 +62,7 @@ $(document).ready(function () {
     const decodedToken = parseJwt(token);
     const userId = decodedToken.userId;
     $.ajax({
-        url: `http://localhost:5000/api/get-user-profile/${userId}`,
+        url: `${baseurl}/api/get-user-profile/${userId}`,
         headers: {
             Authorization: `Bearer ${token}`,
           },
