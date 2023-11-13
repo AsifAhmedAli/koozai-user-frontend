@@ -130,7 +130,7 @@ document.addEventListener("visibilitychange", function () {
                 if (!response.error) {
                     // Update modal content with product details using IDs
                     $("#product_img").attr("src", response.selected_product.product_image_url);
-                    $("#product_description").html(response.selected_product.product_description);
+                    $("#product_description").html(response.selected_product.product_name);
                     $("#product_price").html(`USDT ${response.selected_product.product_price}`);
                     $("#product_commission").html(`USDT ${response.commission.toFixed(2)}`);
                     $("#creation_time").html(moment(response.selected_product.user_product_created_at).format("YYYY-MM-DD HH:mm:ss"));
@@ -139,6 +139,8 @@ document.addEventListener("visibilitychange", function () {
                     
                     // Attach click event to Submit button within the modal
                     $("#submit-btn").off().click(function () {
+                        $("#loading-gif").removeClass("d-none");
+                        
                         
                         // Call the submit data API
                         $.ajax({
@@ -153,7 +155,8 @@ document.addEventListener("visibilitychange", function () {
                             },
                             success: function (submitResponse) {
 
-                                console.log(submitResponse)
+                                // console.log(submitResponse)
+                                $("#loading-gif").addClass("d-none");
                                 // Update the drive data status after submitting
                                 updateDriveDataStatus();
 
@@ -172,6 +175,7 @@ document.addEventListener("visibilitychange", function () {
                                 
                             },
                             error: function (submitError) {
+                                $("#loading-gif").addClass("d-none");
                                 
                                 if (submitError.responseJSON.error === "You have low balance, kindly make a deposit to your account by contacting Customer Support") {
                                     // Show the deposit modal

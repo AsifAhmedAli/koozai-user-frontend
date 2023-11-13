@@ -180,7 +180,7 @@ function parseJwt(token) {
                     <div class="goods">
                       <img src=${item.product_image_url} />
                       <div class="name">${
-                        item.product_description
+                        item.product_name
                       }</div>
                     </div>
                     <div class="order pt-2">

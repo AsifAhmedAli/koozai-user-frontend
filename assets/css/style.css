@@ -617,7 +617,7 @@ header .navigator a {
   left: 0;
   right: 0;
   background: #00000085;
-  z-index: 999;
+  z-index: 999999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -800,8 +800,10 @@ a.forgot-password-action {
   color: #000;
 }
 
-#errorSuccessModal h5 {
+#errorSuccessModal h6 {
   color: red;
+  padding: 5px;
+  
 }
 
 .errorSuccessModal {
@@ -810,10 +812,21 @@ a.forgot-password-action {
   color: #847a7a !important;
   cursor: pointer;
   text-align: center;
-  width: 60%;
+  width: 65%;
+  min-width: auto;
   border-radius: 3px;
-  font-size: 15px;
+  font-size: 13px;
+  line-height: 22px;
 }
+
+@media (max-width: 440px) {
+  .errorSuccessModal {
+    font-size: 12px;
+    max-width: 80%;
+    width: auto;
+  }
+}
+
 
 hr {
   margin-top: -10px;
