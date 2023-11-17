@@ -185,13 +185,13 @@ function parseJwt(token) {
                     </div>
                     <div class="order pt-2">
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-6 col-md-6">
                           <label>Total Amount</label>
                           <div class="value">USDT ${
                             item.product_price
                           }</div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-6 col-md-6">
                           <label>Profit</label>
                           <div class="value">USDT ${item.commission.toFixed(
                             2

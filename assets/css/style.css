@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap");
 :root {
   --theme-color: #f07b0e;
 }
@@ -10,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 13px;
-  font-family: "Montserrat Alternates", sans-serif;
+  font-family: 'Sora', sans-serif;
   box-sizing: border-box;
   color: var(--bs-body-color);
 }
@@ -558,8 +557,6 @@ header .navigator a {
   transform: scaleX(0.5);
 }
 
-
-
 .confirmationModal .modal-body .footer-modal {
   position: relative;
   line-height: 48px;
@@ -803,7 +800,6 @@ a.forgot-password-action {
 #errorSuccessModal h6 {
   color: red;
   padding: 5px;
-  
 }
 
 .errorSuccessModal {
@@ -826,7 +822,6 @@ a.forgot-password-action {
     width: auto;
   }
 }
-
 
 hr {
   margin-top: -10px;
