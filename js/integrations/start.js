@@ -1,4 +1,19 @@
-
+$(document).ready(function() {
+    // On page load, fetch working hours and update the paragraph
+    $.ajax({
+      url: `${baseurl}/api/get-working-hours`,
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        const operatingHours = `- Operating time: ${response.start_time} - ${response.end_time} everyday.`;
+        $('#operating-hours').text(operatingHours);
+      },
+      error: function(error) {
+        console.error(error);
+        $('#operating-hours').text('Failed to fetch operating hours.');
+      }
+    });
+  });
 
 
 $(document).ready(function () {
@@ -19,6 +34,7 @@ $(document).ready(function () {
 
         return JSON.parse(jsonPayload);
     }
+    
     
 
     // Fetch the user's profile using the bearer token
@@ -69,8 +85,8 @@ document.addEventListener("visibilitychange", function () {
             },
             success: function (data) {
                 // Update the HTML elements with the received data
-                $("#todayProfit").text(data.commission);
-                $("#totalBalance").text(data.balance);
+                $("#todayProfit").text(`USDT ${data.commission}`);
+                $("#totalBalance").text(`USDT ${data.balance}`);
                 // Hide the loading spinner
                 $("#loadingSpinner").addClass("d-none");
             },
